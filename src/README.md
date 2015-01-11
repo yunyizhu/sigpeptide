@@ -8,4 +8,4 @@ The **data\_reader** module contains functions to read data from files and opera
 - **read\_test\_data**(file\_list ): similar to **read\_training\_data**. 
 - **get\_rg\_len**( rg\_seq): return the length of n, h and c region of every item in *rg\_seq*.
 - **region**( nr\_rg\_seq ): return the corresponding un_numbered region type sequences of the numbered sequences in *nr\_rg\_seq*.
-- **number_region**( rg\_seq, n\_max=8, h\_max=18, c\_max = 10): return the corresponding numbered region type sequences of the un_numbered sequences in *rg\_seq*. *n\_max, h\_max, c\_max* are the maximum number of state for each region.
+- **number_region**( rg\_seq, n\_max=8, h\_max=18, c\_max = 10): return the corresponding numbered region type sequences of the un_numbered sequences in *rg\_seq*. *n\_max, h\_max, c\_max* are the maximum number of states for each region.
