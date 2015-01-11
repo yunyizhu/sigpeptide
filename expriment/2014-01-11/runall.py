@@ -27,5 +27,5 @@ p3 = fig.add_subplot(133)
 p3.hist(c_len, bins=max(c_len) - min(c_len), color='red', normed=True)
 p3.set_title('c region')
 
-fig.savefig('region length distribution.png')
+fig.savefig('region_length_distribution.png')
         
