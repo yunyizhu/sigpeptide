@@ -13,6 +13,9 @@ import math
 import random
 import copy
 import pickle
+import numpy
+from collections import defaultdict
+
 
 class HMM:
     INF = float('inf')    # infinity !!!
@@ -264,6 +267,42 @@ class HMM:
         
         return True
 
+
+    #given state seqs, observation seqs and list of states that are tied to each other, train the HMM by maximum likelihood
+    def train2(self, st_seqs, ob_seqs, st_groups):
+        
+        N = len(self.st_list) #number of states
+        M = len(self.ob_list) #number of observations
+
+        init_count = numpy.zeros(N)
+        self.init_matrix = numpy.zeros(N)
+        trans_count = numpy.zeros((N, N))
+        self.trans_matrix = numpy.zeros((N, N))
+        emit_count_by_group = numpy.zeros((len(st_groups), M))
+        self.emit_matrix = numpy.zeros((N, M))
+
+        #group dictionary
+        g_dict = dict()
+        for i in range(len(st_groups)):
+            for st in st_groups[i]:
+                g_dict[st]=i
+
+        #count
+        for i in range(len(st_seqs)):
+            init_count[ self.st_list_index[ st_seqs[i][0] ] ] += 1
+            emit_count_by_group[ g_dict[ st_seqs[i][0] ] ][ self.ob_list_index[ ob_seqs[i][0] ] ] += 1.
+            for j in range( 1, len(st_seqs[i]) ):
+                trans_count[ self.st_list_index[ st_seqs[i][j-1] ] ][ self.st_list_index[ st_seqs[i][j] ] ] += 1.
+                emit_count_by_group[ g_dict[ st_seqs[i][j] ] ][ self.ob_list_index[ ob_seqs[i][j] ] ] += 1.
+
+        #normalize
+        self.init_matrix = init_count/numpy.sum(init_count)
+        for i in range(N):
+            self.trans_matrix[i, :] = trans_count[i, :]/numpy.sum(trans_count[i, :])
+            group = g_dict[ self.st_list[i] ]
+            self.emit_matrix[i, :] = emit_count_by_group[group, :]/numpy.sum(emit_count_by_group[group, :])
+        
+        
     # forward_backword algorithm for training
     def forward_backward(self, ob_seq_int):
         N = len(self.st_list)
@@ -400,8 +439,7 @@ class HMM:
     # add an observation to HMM
     def add_observation(self, ob):
         self.ob_list.append(ob)
-        self.ob_list_index[ob] = len(self.ob_list) - 1
-
+        self.ob_list_index[ob] = len(self.ob_list)
         N = len(self.st_list)
         for st in xrange(N):
             self.emit_matrix[st].append(self.NEG_INF)

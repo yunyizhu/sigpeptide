@@ -60,7 +60,21 @@ def number_region( rg_seq, n_max=8, h_max=18, c_max = 10):
                 nr_rg_seq.append(seq)
         return nr_rg_seq
                         
-                
+def rg_replace(old):
+        new = old.replace('M', 'O')
+        new = new.replace('i', 'O')
+        new = new.replace('o', 'O')
+        return new
+
+def is_sig(rg_seq):
+        t = []
+        for s in rg_seq:
+                if s[0] == 'O':
+                        t.append(0)
+                else:
+                        t.append(1)
+        return array(t)
+
 def read_training_data( file_list ):
         data = []
         with open( file_list, 'r' ) as f :
@@ -72,9 +86,9 @@ def read_training_data( file_list ):
                         is_tm = int(tmp[2])
                         for record in SeqIO.parse(data_path, "fasta"):
                                 seq = record.seq.tostring().split('#')
-                                data.append([list(seq[0]), list(seq[1]), list(seq[1]), is_signal, is_tm])
+                                data.append([list(seq[0]), list(seq[1]), list(rg_replace(seq[1])), is_signal, is_tm])
         data = array(data)
-        data[ :, 2] = number_region( data[:, 1])
+        data[ :, 2] = number_region( data[:, 2])
         return data
 
 def read_test_data( file_list ):
@@ -88,7 +102,7 @@ def read_test_data( file_list ):
                         is_tm = int(tmp[2])
                         for record in SeqIO.parse(data_path, "fasta"):
                                 seq = record.seq.tostring()
-                                data.append([list(seq), [],[],is_signal, is_tm] )
+                                data.append([list(seq), is_signal, is_tm] )
         data = array(data)
         return data
 
@@ -102,15 +116,15 @@ if __name__ == "__main__" :
         print 'h length range:', min(h_len), max(h_len)
         print 'c length range:', min(c_len), max(c_len)
 
-        fig = plt.figure()
-        p1 = fig.add_subplot(131)
-        p1.hist(n_len, bins=max(n_len) - min(n_len), normed=True)
-        p1.set_title('n region')
-        p2 = fig.add_subplot(132)
-        p2.hist(h_len, bins=max(h_len) - min(h_len), color='green',normed=True)
-        p2.set_title('h region')
-        p3 = fig.add_subplot(133)
-        p3.hist(c_len, bins=max(c_len) - min(c_len), color='red', normed=True)
-        p3.set_title('c region')
-        plt.show()
+        #fig = plt.figure()
+        #p1 = fig.add_subplot(131)
+        #p1.hist(n_len, bins=max(n_len) - min(n_len), normed=True)
+        #p1.set_title('n region')
+        #p2 = fig.add_subplot(132)
+        #p2.hist(h_len, bins=max(h_len) - min(h_len), color='green',normed=True)
+        #p2.set_title('h region')
+        #p3 = fig.add_subplot(133)
+        #p3.hist(c_len, bins=max(c_len) - min(c_len), color='red', normed=True)
+        #p3.set_title('c region')
+        #plt.show()
         
