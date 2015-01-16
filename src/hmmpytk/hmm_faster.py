@@ -274,11 +274,11 @@ class HMM:
         N = len(self.st_list) #number of states
         M = len(self.ob_list) #number of observations
 
-        init_count = numpy.zeros(N)
+        init_count = numpy.zeros(N) + 1e-16
         self.init_matrix = numpy.zeros(N)
-        trans_count = numpy.zeros((N, N))
+        trans_count = numpy.zeros((N, N)) + 1e-16
         self.trans_matrix = numpy.zeros((N, N))
-        emit_count_by_group = numpy.zeros((len(st_groups), M))
+        emit_count_by_group = numpy.zeros((len(st_groups), M)) + 1e-16
         self.emit_matrix = numpy.zeros((N, M))
 
         #group dictionary

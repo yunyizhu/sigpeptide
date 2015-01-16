@@ -32,9 +32,11 @@ def build_model(train_data):
     return model
 
 
-def predict(model, ob_seqs):
+def predict(model, ob_seqs, max_len = 100):
     st_seqs = []
     for peptide in ob_seqs:
+        if len(peptide)>max_len:
+            peptide = peptide[:100]
         st_seqs.append( model.viterbi(peptide) )
     return st_seqs
 

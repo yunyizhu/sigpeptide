@@ -1,7 +1,10 @@
 #!/usr/bin/python
 from numpy import array
 from Bio import SeqIO
+from Bio.Seq import Seq
+from Bio.SeqRecord import SeqRecord
 import matplotlib.pyplot as plt
+from random import sample
 
 def get_rg_len( rg_seq ):
         n_len = []
@@ -102,10 +105,22 @@ def read_test_data( file_list ):
                         is_tm = int(tmp[2])
                         for record in SeqIO.parse(data_path, "fasta"):
                                 seq = record.seq.tostring()
+                                seq = seq.upper()
+                                seq = seq.replace('*', '')
+                                seq = seq.replace('U', 'X')
+                                seq = seq.replace('B', sample(['N','D'],1)[0])
+                                seq = seq.replace('Z', sample(['Q','E'],1)[0])
                                 data.append([list(seq), is_signal, is_tm] )
         data = array(data)
         return data
 
+def write_to_file(seqs,  filename):
+    mylist = []
+    for i in range(len(seqs)):
+        r = SeqRecord(Seq(''.join(seqs[i])), id='seq'+str(i))
+        mylist.append(r)
+    SeqIO.write(mylist,  filename,  'fasta')
+    
 if __name__ == "__main__" :
         file_list="training_list.txt"
         data = read_training_data( file_list )
