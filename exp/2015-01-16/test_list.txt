@@ -1,0 +1,3 @@
+#file_name	is_signal_peptide	is_TM_peptide
+../../data/synthetic/positive.fa	1	-1
+../../data/synthetic/random.fa	-1	-1
