@@ -18,15 +18,19 @@ test_data = read_test_data( test_list )
 
 posi = test_data[ test_data[:,1]==1, 0 ]
 rand = test_data[ test_data[:,1]==-1, 0]
+nega = test_data[ test_data[:,1]==0, 0]
 
 posi_seq = predict(m, posi)
 rand_seq = predict(m, rand)
+nega_seq = predict(m, nega)
 
 posi_type= is_sig(posi_seq)
 rand_type= is_sig(rand_seq)
+nega_type= is_sig(nega_seq)
 
 print 'posi prediction from posi sample', sum(posi_type)/float( len(posi_type) )
 print 'posi prediction from random sample', sum(rand_type)/float( len(rand_type) )
+print 'posi prediction from nega sample', sum(nega_type)/float(len(nega_type) )
 
 #prediction on mouse proteom
 print '-----------------mouse proteom-----------------------------------'

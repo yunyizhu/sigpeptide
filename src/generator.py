@@ -71,19 +71,30 @@ def generate_positive_samples(filename, n, length, pi, A, B):
 
 
 if __name__ == '__main__':
-    # Negative synthetic data
+    # random synthetic data
     num_data = 100
     length = 100
-    filename = '../data/synthetic/negative.fa'
-    generate_negative_samples(filename, num_data, length)
+    #filename = '../data/synthetic/random.fa'
+    #generate_negative_samples(filename, num_data, length)
 
     # Positive synthetic data
+    #file_list = "training_list.txt"
+    #train_data = data_reader.read_training_data( file_list )
+    #m = build_model(train_data)
+    #pi = m.get_initial_matrix()
+    #A = m.get_transition_matrix()
+    #B = m.get_emission_matrix()
+    #pi[11] = 0; pi[31] = 1.0 # Rigged the transition matrix so it always start at Methionin state
+    #filename = '../data/synthetic/positive.fa'
+    #generate_positive_samples(filename, num_data, length, pi, A, B)
+
+# Negative synthetic data
     file_list = "training_list.txt"
     train_data = data_reader.read_training_data( file_list )
     m = build_model(train_data)
     pi = m.get_initial_matrix()
     A = m.get_transition_matrix()
     B = m.get_emission_matrix()
-    pi[11] = 0; pi[31] = 1.0 # Rigged the transition matrix so it always start at Methionin state
-    filename = '../data/synthetic/positive.fa'
+    pi[11] = 1.0; pi[31] = 0 # Rigged the transition matrix so it always start at Methionin state
+    filename = '../data/synthetic/negative.fa'
     generate_positive_samples(filename, num_data, length, pi, A, B)

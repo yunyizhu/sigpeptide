@@ -1,5 +1,6 @@
 posi prediction from posi sample 0.73
 posi prediction from random sample 0.18
+posi prediction from nega sample 0.44
 -----------------mouse proteom-----------------------------------
 
 tm false positive 0.520924369748 false negative 0.264857881137
