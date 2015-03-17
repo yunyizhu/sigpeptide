@@ -7,6 +7,7 @@ from data_reader import *
 from hmm import *
 import hmm_faster
 import numpy
+import random
 
 #read in hmm model
 m = hmm_faster.HMM()
@@ -14,10 +15,10 @@ m.read_from_file('model.txt')
 
 human_data = read_test_data( 'proteom_human.txt' )
 
-posi_tm_set = human_data[ (human_data[:, 1]==1)&(human_data[:,2]==1), 0]
-posi_nontm_set = human_data[ (human_data[:, 1]==1)&(human_data[:,2]==0), 0]
-nega_tm_set = human_data[ (human_data[:, 1]==0)&(human_data[:,2]==1), 0]
-nega_nontm_set = human_data[ (human_data[:, 1]==0)&(human_data[:,2]==0), 0]
+posi_tm_set = random.sample(human_data[ (human_data[:, 1]==1)&(human_data[:,2]==1), 0], 2000)
+posi_nontm_set = random.sample(human_data[ (human_data[:, 1]==1)&(human_data[:,2]==0), 0], 2000)
+nega_tm_set = random.sample(human_data[ (human_data[:, 1]==0)&(human_data[:,2]==1), 0], 2000)
+nega_nontm_set = random.sample(human_data[ (human_data[:, 1]==0)&(human_data[:,2]==0), 0], 2000)
     
 posi_tm_seq = predict(m, posi_tm_set)
 posi_nontm_seq = predict(m, posi_nontm_set)
